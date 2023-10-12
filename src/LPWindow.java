@@ -161,7 +161,6 @@ public class LPWindow extends JFrame {
         windowControlsPanel = new JPanel(new FlowLayout());
         windowControlsPanel.setBackground(WindowActions.BOX_BACKGROUND);
         windowControlsPanel.setPreferredSize(new Dimension(100, 20));
-        topBar.add(windowControlsPanel, BorderLayout.WEST);
 
         // Initializing icons for the window control buttons.
         Icon x = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/close.png")))
@@ -178,20 +177,30 @@ public class LPWindow extends JFrame {
         closeButton.setSize(20, 15);
         closeButton.setBackground(WindowActions.BOX_BACKGROUND);
         closeButton.setFocusable(false);
-        windowControlsPanel.add(closeButton);
 
         minimizeButton = new JButton(y);
         minimizeButton.setSize(20, 20);
         minimizeButton.setBackground(WindowActions.BOX_BACKGROUND);
         minimizeButton.setFocusable(false);
-        windowControlsPanel.add(minimizeButton);
         minimizeButton.addActionListener(e -> this.setState(Frame.ICONIFIED));
 
         maximizeButton = new JButton(z);
         maximizeButton.setSize(20, 20);
         maximizeButton.setBackground(WindowActions.BOX_BACKGROUND);
         maximizeButton.setFocusable(false);
-        windowControlsPanel.add(maximizeButton);
+
+        // Detect whether the program runs on a Macintosh machine, and arrange window control buttons accordingly.
+        if(System.getProperty("os.name").toLowerCase().startsWith("mac")){
+            topBar.add(windowControlsPanel, BorderLayout.WEST);
+            windowControlsPanel.add(closeButton);
+            windowControlsPanel.add(minimizeButton);
+            windowControlsPanel.add(maximizeButton);
+        } else {
+            topBar.add(windowControlsPanel, BorderLayout.EAST);
+            windowControlsPanel.add(minimizeButton);
+            windowControlsPanel.add(maximizeButton);
+            windowControlsPanel.add(closeButton);
+        }
 
         // Maximize button has two different actions, therefore the action listener gets the condition statement.
         maximizeButton.addActionListener(e ->

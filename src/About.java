@@ -16,12 +16,15 @@
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.Font;
+import java.io.File;
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  * The class that contains a dialog with the information about the Lunchpad application itself.
@@ -35,7 +38,7 @@ public class About {
      * Creates a new Lunchpad dialog that contains the information about the Lunchpad application.
      * @since 1.0
      */
-    public About(){
+    public About() {
         // Initiating a Lunchpad dialog object with the title "About Lunchpad"
         LPDialog dialog = new LPDialog("About Lunchpad");
         dialog.setSize(500, 350);
@@ -45,24 +48,55 @@ public class About {
         try{
             // Initiating a new Label with the image file containing the application's logo.
             JLabel logo = new JLabel(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/logo.png")))
-                    .getScaledInstance(360, 240, Image.SCALE_SMOOTH)));
+                    .getScaledInstance(270, 180, Image.SCALE_SMOOTH)));
             // Setting the position and dimension of the logo label.
-            logo.setBounds(60, 25,360, 200);
+            logo.setBounds(10, 0,250, 70);
             dialog.mainPanel.add(logo);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-
         // Initiating the JLabel containing the information about the application.
-        JLabel text = new JLabel("Version 1.0 - Designed by İbrahim Kaan Bilir (Abes400) - Licenced under GPL v3 License");
-        text.setFont(new Font("Sans Serif", Font.PLAIN, 10));
-        text.setAlignmentX(SwingConstants.CENTER);
-        // Setting the color of the text to caret color. (See WindowAction's implementation)
-        text.setForeground(WindowActions.BOX_CARET);
-        // Setting the position and dimension of the text label.
-        text.setBounds(40, 200, 500, 60);
-        dialog.mainPanel.add(text);
+        JLabel[] text = new JLabel[2];
+        text[0] = new JLabel("Version 1.0.1");
+        text[1] = new JLabel("You can switch between sound channels USING THE ARROW KEYS.");
+
+        // Setting the coordinates and size of each index
+        text[0].setForeground(WindowActions.BOX_CARET);
+        text[0].setBounds(410, 5, 500, 60);
+        dialog.mainPanel.add(text[0]);
+
+        text[1].setForeground(WindowActions.BOX_CARET);
+        text[1].setFont(new Font(Font.DIALOG, 0, 10));
+        text[1].setBounds(20, 260, 500, 60);
+        dialog.mainPanel.add(text[1]);
+
+        StringBuilder GPL = new StringBuilder(); //the string to contain the GPL licence text.
+
+        // Reading the contents of the GPL_Notice.txt and appending it to the GPL.
+        try{
+            // Get the URL from the path given, convert to URI.
+            // Create a file instance out of the fresh URI and read it by Scanner gpl.
+            Scanner gpl = new Scanner(new File(Objects.requireNonNull(getClass().getResource("GPL_Notice_and_Credits.txt")).toURI()));
+            while(gpl.hasNext()) {
+                GPL.append(gpl.nextLine()).append('\n'); // Append each line of gpl to GPL.
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        // Initiating the text area that contains the GPL string.
+        JTextArea copyText = new JTextArea(GPL.toString());
+        copyText.setEditable(false);
+        //copyText.setLineWrap(true);
+        copyText.setFont(new Font(Font.DIALOG, 0, 10));
+        copyText.setFocusable(false);
+        JScrollPane scrollPane = new JScrollPane(copyText);
+        scrollPane.setForeground(WindowActions.BOX_FOREGROUND);
+        scrollPane.setBackground(WindowActions.BOX_BACKGROUND);
+        scrollPane.setFocusable(false);
+        scrollPane.setBounds(10, 70, 480, 200);
+        dialog.mainPanel.add(scrollPane);
 
         // Initializing the button to close the dialog.
         JButton button = new JButton("Close");

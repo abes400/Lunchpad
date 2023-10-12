@@ -26,6 +26,7 @@ public class Main {
 
             // Setting the Look And Feel theme of the whole project.
             UIManager.setLookAndFeel("com.formdev.flatlaf.themes.FlatMacDarkLaf");
+
             // Creates a directory that holds every audio library that cn be used in the application.
             String startString = fileCAFE();
             // Initiates the splash screen (or banner?) to be shown while the main window initiates.
@@ -42,6 +43,8 @@ public class Main {
             // Otherwise, an exception will be thrown on console.
 
         } catch (Exception e) {throw new RuntimeException(e);}
+
+
 
     }
 

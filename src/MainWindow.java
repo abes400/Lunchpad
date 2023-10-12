@@ -166,7 +166,12 @@ public class MainWindow implements KeyListener {
         JLabel logo = new JLabel(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/logo.png")))
                     .getScaledInstance(120, 80, Image.SCALE_SMOOTH)));
         logo.setSize(240, 160);
-        mWindow.topBar.add(logo, BorderLayout.EAST);
+
+        // Detect whether the program runs on a Macintosh machine, and align the logo accordingly.
+        if(System.getProperty("os.name").toLowerCase().startsWith("mac"))
+            mWindow.topBar.add(logo, BorderLayout.EAST);
+        else
+            mWindow.topBar.add(logo, BorderLayout.WEST);
 
         Icon audioIcon = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/add_sound.png")))
                                       .getScaledInstance(15,15, Image.SCALE_SMOOTH));
@@ -359,7 +364,7 @@ public class MainWindow implements KeyListener {
         } catch (IOException e) {throw new RuntimeException(e);}
     }
 
-    public void about(){
+    public void about() {
         new About();
     }
 

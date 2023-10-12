@@ -114,7 +114,7 @@ public class AudioMgr extends Manager {
         try { FileUtils.delete(deletedItem); } // The best way to delete the selected file. Otherwise, the file won't delete.
         catch (IOException ex) { throw new RuntimeException(ex); }
         selectedFileName.setText(fileList.getSelectedValue() + " has been deleted.");
-        refresh(".wav"); // Refreshes the DLM so the newle selected file is also visible
+        refresh(".wav"); // Refreshes the DLM so the newly selected file is also visible
                                       // as long as it is a .wav file.
     }
 

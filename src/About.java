@@ -22,7 +22,12 @@ import javax.swing.JButton;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.awt.Font;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.Buffer;
+import java.nio.CharBuffer;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -75,12 +80,18 @@ public class About {
 
         // Reading the contents of the GPL_Notice.txt and appending it to the GPL.
         try{
-            // Get the URL from the path given, convert to URI.
-            // Create a file instance out of the fresh URI and read it by Scanner gpl.
-            Scanner gpl = new Scanner(new File(Objects.requireNonNull(getClass().getResource("GPL_Notice_and_Credits.txt")).toURI()));
-            while(gpl.hasNext()) {
-                GPL.append(gpl.nextLine()).append('\n'); // Append each line of gpl to GPL.
-            }
+            // Creating an InputStream instance "inputStream" for streaming out of "GPL_Notice_and_Credits.txt"
+            // then creating an InputStreamReader named "isr" with the "inputStream"
+            // then creating a BufferedReader "br" with the "isr"
+            InputStream inputStream = getClass().getResourceAsStream("GPL_Notice_and_Credits.txt");
+            InputStreamReader isr = new InputStreamReader(inputStream);
+            BufferedReader br = new BufferedReader(isr);
+            String nextLine = "";
+            // Appending the next line read by "br" to the GPL string
+            while((nextLine = br.readLine()) != null)
+                GPL.append(nextLine + '\n');
+
+            // I had to use this technique because it wouldn't work when the program is run as .jar file.
         } catch(Exception e) {
             e.printStackTrace();
         }

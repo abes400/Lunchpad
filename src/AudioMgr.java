@@ -22,6 +22,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 import org.apache.commons.io.FileUtils;
 
@@ -50,6 +51,7 @@ public class AudioMgr extends Manager {
     private final String currentRepository; // Holds the repository name to work on.
     public static final boolean MANAGE_AUDIO = false, SELECT_AUDIO = true; // Constants to be passed in the constructor
     private final boolean mode; // The mode that will specify
+    private static ResourceBundle bundleAudio = ResourceBundle.getBundle("AudioMgrStrings");
 
     /**
      * Creates a new AudioMgr dialog.
@@ -69,7 +71,7 @@ public class AudioMgr extends Manager {
         this.currentRepository = currentRepository;
         System.out.println(currentRepository);
 
-        dialog.setTitle("Audio Manager");
+        dialog.setTitle(bundleAudio.getString("AUMGR_TITLE"));
 
         // Initializing the icon that will be used in Recorder button.
         Icon recordIcon;
@@ -83,7 +85,7 @@ public class AudioMgr extends Manager {
 
         // Initializing the Recorder button
         JButton record = new JButton(recordIcon);
-        record.setText("Recorder");
+        record.setText(bundleAudio.getString("AUMGR_RCDR"));
         record.setBounds(3, 303, 135, 40); // Setting the position and the dimension of the button
         record.setFocusable(false); // If not called, the manager will malfunction.
         record.addActionListener(e -> audioRecorder(path)); // Assigning the button to the function audioRecorder()
@@ -113,7 +115,7 @@ public class AudioMgr extends Manager {
         System.out.println(deletedItem);
         try { FileUtils.delete(deletedItem); } // The best way to delete the selected file. Otherwise, the file won't delete.
         catch (IOException ex) { throw new RuntimeException(ex); }
-        selectedFileName.setText(fileList.getSelectedValue() + " has been deleted.");
+        selectedFileName.setText(fileList.getSelectedValue() + bundleAudio.getString("AUMGR_DELETED"));
         refresh(".wav"); // Refreshes the DLM so the newly selected file is also visible
                                       // as long as it is a .wav file.
     }
@@ -125,12 +127,13 @@ public class AudioMgr extends Manager {
      */
     @Override
     public void importF(){
+        dialog.setVisible(false);
         try {
             // Load the file selected by user to the current repository, the method is called in file selection mode.
             FileOperations.loadFileTo(System.getProperty("user.home") + "/LunchPad Repositories/"
                     + currentRepository + "/", FileOperations.file);
         } catch (java.io.IOException exception) {throw new RuntimeException(exception);}
-
+        dialog.setVisible(true);
         if(FileOperations.filename != null){ // If user selects something
             refresh(".wav"); // Refreshes the DLM so the newly selected file is also visible
                                           // as long as it is a .wav file.
@@ -140,7 +143,7 @@ public class AudioMgr extends Manager {
                 fileList.setSelectedValue(FileOperations.filename, true);
 
             remove.setEnabled(true);
-            selectedFileName.setText(FileOperations.filename + " selected");
+            selectedFileName.setText(FileOperations.filename + bundleAudio.getString("AUMGR_SELECTED"));
         }
     }
 
@@ -149,7 +152,7 @@ public class AudioMgr extends Manager {
     protected void selectList(){
         if(fileList.getSelectedValue() != null) { // Just to assure that the program doesn't attempt
                                                   // to select a null file and break itself
-            selectedFileName.setText(fileList.getSelectedValue() + " selected");
+            selectedFileName.setText(fileList.getSelectedValue() + bundleAudio.getString("AUMGR_SELECTED"));
             if (mode) {
                 use.setEnabled(true);
             } else {
@@ -159,6 +162,7 @@ public class AudioMgr extends Manager {
     }
 
     private void audioRecorder(String path) {
+        dialog.setVisible(false);
         try {
             new RecorderDialog(path); // Initializes the Audio Recorder
             refresh(".wav"); // After user exits the Recorder dialog, DLM is refreshed just in case
@@ -167,5 +171,6 @@ public class AudioMgr extends Manager {
         } catch (LineUnavailableException e) {
             throw new RuntimeException(e);
         }
+        dialog.setVisible(true);
     }
 }

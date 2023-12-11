@@ -14,8 +14,7 @@
  * <https://www.gnu.org/licenses/>.
  * */
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import javax.swing.JButton;
 
 /**
@@ -27,16 +26,19 @@ import javax.swing.JButton;
 public class SoundKey extends JButton {
     private final String[] clips;
     public String[] names;
+    private final String LABEL_PREFIX;
+    private static final String LABEL_SUFFIX = "</h6></left></html>";
     private static int currentStreamIndex;
     static Dimension dim = new Dimension(60, 60);
     public static final int RIGHT = 1, LEFT = 0;
+    private static final int NAME_END_INDEX = 6;
 
     public SoundKey(String label) {
-        setText(label);
+        LABEL_PREFIX = "<html><left>" + label + "<br/><h6>";
         clips = new String[2];
         names = new String[2];
         this.setPreferredSize(dim);
-        this.setBackground(new Color(0x5C5C5C));
+        this.setBackground(WindowActions.BOX_BACKGROUND);
     }
 
     public String[] getClipName(){
@@ -46,12 +48,19 @@ public class SoundKey extends JButton {
     public void addSound(String name, int clipNumber)
     {
         clips[clipNumber] = name;
+        changeNameLabel(name);
     }
 
-    public String getSound(){
-        return clips[currentStreamIndex];
+    public String getSoundAt(int index) { return clips[index]; }
+
+    public static void switchSound(int clipNumber){
+        currentStreamIndex = clipNumber;
     }
 
-    public static void switchSound(int clipNumber){ currentStreamIndex = clipNumber; }
+    public void changeNameLabel(String name) {
+        setText(this.LABEL_PREFIX
+                + name.substring(0, name.length() <= NAME_END_INDEX ? name.length() : NAME_END_INDEX)
+                + LABEL_SUFFIX);
+    }
     public static int getSoundIndex(){return currentStreamIndex;}
 }

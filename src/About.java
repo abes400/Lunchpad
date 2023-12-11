@@ -28,7 +28,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
 import java.nio.CharBuffer;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /**
@@ -39,13 +41,18 @@ import java.util.Scanner;
  * @since 1.0
  */
 public class About {
+    public static boolean aboutShowing = false;
+    public static ResourceBundle bundle = ResourceBundle.getBundle("AboutStrings");
+
     /**
      * Creates a new Lunchpad dialog that contains the information about the Lunchpad application.
      * @since 1.0
      */
     public About() {
+        aboutShowing = true;
         // Initiating a Lunchpad dialog object with the title "About Lunchpad"
-        LPDialog dialog = new LPDialog("About Lunchpad");
+        LPDialog dialog = new LPDialog(bundle.getString("ABOUT_TITLE"));
+        //LPDialog dialog = new LPDialog("Hakkında");
         dialog.setSize(500, 350);
         WindowActions.centerWindow(dialog);
         dialog.setModal(true);
@@ -63,8 +70,8 @@ public class About {
 
         // Initiating the JLabel containing the information about the application.
         JLabel[] text = new JLabel[2];
-        text[0] = new JLabel("Version 1.0.1");
-        text[1] = new JLabel("You can switch between sound channels USING THE ARROW KEYS.");
+        text[0] = new JLabel(bundle.getString("ABOUT_VER"));
+        text[1] = new JLabel(bundle.getString("ABOUT_HINT"));
 
         // Setting the coordinates and size of each index
         text[0].setForeground(WindowActions.BOX_CARET);
@@ -83,7 +90,7 @@ public class About {
             // Creating an InputStream instance "inputStream" for streaming out of "GPL_Notice_and_Credits.txt"
             // then creating an InputStreamReader named "isr" with the "inputStream"
             // then creating a BufferedReader "br" with the "isr"
-            InputStream inputStream = getClass().getResourceAsStream("GPL_Notice_and_Credits.txt");
+            InputStream inputStream = getClass().getResourceAsStream(bundle.getString("ABOUT_GPL"));
             InputStreamReader isr = new InputStreamReader(inputStream);
             BufferedReader br = new BufferedReader(isr);
             String nextLine = "";
@@ -99,7 +106,8 @@ public class About {
         // Initiating the text area that contains the GPL string.
         JTextArea copyText = new JTextArea(GPL.toString());
         copyText.setEditable(false);
-        //copyText.setLineWrap(true);
+        copyText.setLineWrap(true); //Wraps the text to our box
+        copyText.setWrapStyleWord(true); // To ensure that words are not split
         copyText.setFont(new Font(Font.DIALOG, 0, 10));
         copyText.setFocusable(false);
         JScrollPane scrollPane = new JScrollPane(copyText);
@@ -110,14 +118,17 @@ public class About {
         dialog.mainPanel.add(scrollPane);
 
         // Initializing the button to close the dialog.
-        JButton button = new JButton("Close");
+        JButton button = new JButton(bundle.getString("ABOUT_CLOSE"));
         // Setting the position and dimension of the text label.
         button.setBounds(417, 273, 80, 40);
         // Setting the button color of the button to button color. (See WindowAction's implementation)
         button.setBackground(WindowActions.BUTTON_COLOR);
         button.setFocusable(false);
         // Adding the function to the button.
-        button.addActionListener(e -> dialog.setVisible(false));
+        button.addActionListener(e -> {
+            dialog.setVisible(false);
+            aboutShowing = false;
+        });
         dialog.mainPanel.add(button);
 
         dialog.setVisible(true);

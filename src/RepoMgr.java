@@ -22,8 +22,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import com.formdev.flatlaf.util.StringUtils;
 
 
 /**
@@ -47,6 +49,7 @@ public class RepoMgr extends Manager {
     final private JButton completeAdd, add;
     final private JTextField name;
     final private String currentRepository;
+    private static ResourceBundle bundleRepo = ResourceBundle.getBundle("RepoMgrStrings");
 
     /**
      * Creates a new RepoMgr dialog.
@@ -57,7 +60,7 @@ public class RepoMgr extends Manager {
     public RepoMgr(String path, String currentRepository){
         super(path);      // Superclass' constructor should be getting the path only.
 
-        dialog.setTitle("Repository Manager");
+        dialog.setTitle(bundleRepo.getString("REPOMGR_TITLE"));
 
         refresh(""); // Refreshing the contents of the JList
 
@@ -90,7 +93,7 @@ public class RepoMgr extends Manager {
         dialog.mainPanel.add(name);
 
         // Initializing the button to confirm the repository creation
-        completeAdd = new JButton("OK");
+        completeAdd = new JButton(bundleRepo.getString("REPOMGR_OK"));
         completeAdd.setBounds(240, 303, 55, 40);
         completeAdd.setBackground(WindowActions.BUTTON_COLOR);
         completeAdd.setFocusable(false);
@@ -113,10 +116,10 @@ public class RepoMgr extends Manager {
             // be thrown saying that the directory is not empty.
             deleteDirectory(new File(System.getProperty("user.home") + "/LunchPad Repositories/"
                     + fileList.getSelectedValue()));
-            selectedFileName.setText(fileList.getSelectedValue() + " has been deleted.");
+            selectedFileName.setText(fileList.getSelectedValue() + bundleRepo.getString("REPOMGR_DELETED"));
             refresh("");
         } else {
-            selectedFileName.setText("Can't delete this repository because it's in use.");
+            selectedFileName.setText(bundleRepo.getString("REPOMGR_DELERR"));
         }
     }
 
@@ -127,11 +130,13 @@ public class RepoMgr extends Manager {
      */
     @Override
     public void importF(){
-
+        dialog.setVisible(false);
         try {
             // Load the directory selected by user to the current repository, the method is called in directory selection mode.
             FileOperations.loadFileTo(System.getProperty("user.home") + "/LunchPad Repositories/", FileOperations.dir);
         } catch (IOException e) { throw new RuntimeException(e);}
+
+        dialog.setVisible(true);
 
         if (FileOperations.filename != null) { // If user selects something
             refresh(""); // Refreshes the DLM so the newly selected dir is also visible
@@ -139,7 +144,7 @@ public class RepoMgr extends Manager {
             fileList.setSelectedValue(FileOperations.filename, true);
             use.setEnabled(true);
             remove.setEnabled(true);
-            selectedFileName.setText(FileOperations.filename + " selected");
+            selectedFileName.setText(FileOperations.filename + bundleRepo.getString("REPOMGR_SELECT"));
         }
     }
 
@@ -149,7 +154,7 @@ public class RepoMgr extends Manager {
         remove.setEnabled(false);
         use.setEnabled(false);
         cancel.setVisible(false);
-        selectedFileName.setText("Enter the repository name (Leave empty to cancel)");
+        selectedFileName.setText(bundleRepo.getString("REPOMGR_NEWNAME"));
         name.setVisible(true);
         name.grabFocus();
         completeAdd.setVisible(true);
@@ -171,10 +176,10 @@ public class RepoMgr extends Manager {
             cancel.setVisible(true);
             importF.setVisible(true);
             final String newRepoName = name.getText();
-            if(newRepoName.isBlank()) {
-                selectedFileName.setText("Repository creation canceled");
+            if(StringUtils.isEmpty(newRepoName)) {
+                selectedFileName.setText(bundleRepo.getString("REPOMGR_CANCELLED"));
             } else if (DLM.contains(newRepoName)){
-                selectedFileName.setText("A repository " + newRepoName + " already exists");
+                selectedFileName.setText(bundleRepo.getString("REPOMGR_EXISTS"));
             } else {
                 Path path = Paths.get(System.getProperty("user.home") + "/LunchPad Repositories/" + newRepoName + "/");
                 try {
@@ -186,7 +191,7 @@ public class RepoMgr extends Manager {
                 fileList.setSelectedValue(newRepoName, true);
                 use.setEnabled(true);
                 remove.setEnabled(true);
-                selectedFileName.setText(fileList.getSelectedValue() + " selected");
+                selectedFileName.setText(fileList.getSelectedValue() + bundleRepo.getString("REPOMGR_SELECT"));
             }
         }
     }
@@ -196,7 +201,7 @@ public class RepoMgr extends Manager {
     protected void selectList(){
         if(fileList.getSelectedValue() != null) { // Just to assure that the program doesn't attempt
                                                   // to select a null file and break itself
-            selectedFileName.setText(fileList.getSelectedValue() + " selected");
+            selectedFileName.setText(fileList.getSelectedValue() + bundleRepo.getString("REPOMGR_SELECT"));
             remove.setEnabled(true);
             use.setEnabled(true);
         }

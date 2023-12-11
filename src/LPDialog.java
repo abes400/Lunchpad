@@ -14,6 +14,8 @@
  * <https://www.gnu.org/licenses/>.
  * */
 
+import com.sun.awt.AWTUtilities;
+
 import javax.swing.SwingConstants;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -24,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.MouseInfo;
 import java.awt.BorderLayout;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * The class that extends from JDialog, which features a title bar designed for Lunchpad.
@@ -54,10 +57,16 @@ public class LPDialog extends JDialog {
         setLayout(new BorderLayout()); // Setting the layout for the dialog itself.
         setUndecorated(true); // Do not include the native window title.
 
+
+
+
         topBar = new JPanel(); // Contains a bar that contains the window title can be used to drag the LPDialog.
         topBar.setLayout(new BorderLayout()); // Layout of the topBar. BorderLayout helps align the title.
         topBar.setBackground(WindowActions.BOX_BACKGROUND);
+
+
         topBar.setPreferredSize(new Dimension(50, 35));
+
            /*
             * dragX and dragY are used as offset coordinates for the  mouse's coordinates.
             * Whenever the mouse is dragged, the coordinate of the window is changed to the mouse's coordinates added by the offset.

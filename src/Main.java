@@ -14,28 +14,37 @@
  * <https://www.gnu.org/licenses/>.
  * */
 
+import com.formdev.flatlaf.extras.FlatDesktop;
 import javax.swing.UIManager;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+//import java.util.Locale;
 
 // Entry point of the application.
 public class Main {
     public static void main(String[] args) {
 
-        try {
+        FlatDesktop.setAboutHandler( () -> {
+            if(!About.aboutShowing) new About();
+        } );
 
+        try {
+            // Locale.setDefault(new Locale("en", "US"));
             // Setting the Look And Feel theme of the whole project.
             UIManager.setLookAndFeel("com.formdev.flatlaf.themes.FlatMacDarkLaf");
 
-            // Creates a directory that holds every audio library that cn be used in the application.
-            String startString = fileCAFE();
             // Initiates the splash screen (or banner?) to be shown while the main window initiates.
             SplashScreen splashScreen = new SplashScreen();
             splashScreen.baseFrame.setVisible(true);
-            // Initiate the main window.
-            MainWindow win = new MainWindow(startString);
+            Thread.sleep(1000);
             // Hide the splash screen
             splashScreen.baseFrame.setVisible(false);
+
+            // Creates a directory that holds every audio library that cn be used in the application.
+            String startString = fileCAFE();
+
+            // Initiate the main window.
+            MainWindow win = new MainWindow(startString);
             // Show the main window
             win.mWindow.setVisible(true);
 

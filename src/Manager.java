@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.io.File;
+import java.util.ResourceBundle;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -54,6 +55,7 @@ public abstract class Manager {
     protected LPDialog dialog; // The dialog that will be shown in the GUI
     protected boolean cancelled; // Holds whether the user clicked Dismiss button => helps
     protected File fileDir; // The directoey worked on by the manager
+    protected static ResourceBundle bundle = ResourceBundle.getBundle("ManagerStrings");
 
     public Manager(String path){
         fileDir = new File(path); // Assigns the working directory to fileDir.
@@ -85,19 +87,19 @@ public abstract class Manager {
         scroller.setForeground(WindowActions.BOX_FOREGROUND);
         dialog.mainPanel.add(scroller);
 
-        selectedFileName = new JLabel("No item selected.", SwingConstants.LEFT);
+        selectedFileName = new JLabel(bundle.getString("MGR_NO_ITEM"), SwingConstants.LEFT);
         selectedFileName.setForeground(WindowActions.BOX_FOREGROUND);
         selectedFileName.setBounds(3, 273, 295, 20);
         dialog.mainPanel.add(selectedFileName);
 
-        cancel = new JButton("Close");
+        cancel = new JButton(bundle.getString("MGR_CLOSE"));
         cancel.setBounds(137, 303, 80, 40);
         cancel.setBackground(WindowActions.BUTTON_COLOR);
         cancel.setFocusable(false);
         cancel.addActionListener(e -> cancel()); // assigning cancel() method to the button
         dialog.mainPanel.add(cancel);
 
-        importF = new JButton("Import");
+        importF = new JButton(bundle.getString("MGR_IMPORT"));
         importF.setBounds(217, 273, 80, 25);
         importF.setBackground(WindowActions.BUTTON_COLOR);
         importF.setFocusable(false);
@@ -144,7 +146,7 @@ public abstract class Manager {
      * @since 1.0
      */
     protected void enableUse(){
-        use = new JButton("Use"); // Initialize the button
+        use = new JButton(bundle.getString("MGR_USE")); // Initialize the button
         use.setBounds(217, 303, 80, 40); // Set position and dimension
         use.setBackground(WindowActions.APPROVE_COLOR); // Change the color of the button
         use.setFocusable(false);

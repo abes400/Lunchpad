@@ -19,10 +19,12 @@ import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 import java.io.File;
 import java.util.HashMap;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 public class SoundPlayer {
     private final HashMap buttonSounds;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("SoundPlayerStrings");
 
     public SoundPlayer(){
         buttonSounds = new HashMap<String, Clip[]>();
@@ -39,10 +41,9 @@ public class SoundPlayer {
                     newClip[i].open(AudioSystem.getAudioInputStream(new File(path)));
                 } catch (OutOfMemoryError e) {
                     newClip[i].close();
-                    JOptionPane.showMessageDialog(null, """
-                                    In order to work with a much better performance,Lunchpad needs to be restarted.\s
-                                    Don't worry, the repository and the keymappings are saved.
-                                    Click OK to close. After that, you can restart the program.""", "Restart needed - Mapping saved successfully",
+                    JOptionPane.showMessageDialog(null,
+                            bundle.getString("SP_ERR"),
+                            bundle.getString("SP_ERR_TTL"),
                             JOptionPane.INFORMATION_MESSAGE, null);
                     System.exit(0);
                 }

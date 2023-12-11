@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.*;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 public class SplashScreen {
     public JFrame baseFrame;
@@ -36,7 +37,7 @@ public class SplashScreen {
         logo.setBounds(0, 0,500, 313);
         baseFrame.getContentPane().add(logo);
 
-        JLabel text = new JLabel("Version 1.0 - Designed by İbrahim Kaan Bilir (Abes400) - Licenced under GPL v3 License");
+        JLabel text = new JLabel(ResourceBundle.getBundle("SplashScreenStrings").getString("SPLSH_BYLINE"));
         text.setFont(new Font("Sans Serif", Font.PLAIN, 10));
         text.setAlignmentX(SwingConstants.CENTER);
         text.setForeground(WindowActions.BOX_CARET);

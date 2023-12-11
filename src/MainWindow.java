@@ -34,8 +34,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Scanner;
-
 // 0: up
 // 1: right
 // 2: down
@@ -57,6 +57,7 @@ public class MainWindow implements KeyListener {
     private int selectedKey;
     private Icon[] souncChannelIcon;
     private JLabel selectedChannelLabel;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("MainWindowStrings");
 
     /** Simply call this method with the "new" keyword and you have a MainWindow*/
     public MainWindow(String openRepository) throws java.io.IOException {
@@ -110,13 +111,13 @@ public class MainWindow implements KeyListener {
         JPanel filePanel = new JPanel();
         filePanel.setBackground(WindowActions.PANEL_COLOR);
         filePanel.setPreferredSize(new Dimension(400, 220));
-        filePanel.setBorder(getBorder("Sound Repository"));
+        filePanel.setBorder(getBorder(bundle.getString("MW_SOUNDREPO")));
         filePanel.setLayout(null);
 
         JPanel keyPanel = new JPanel();
         keyPanel.setBackground(WindowActions.PANEL_COLOR);
         keyPanel.setPreferredSize(new Dimension(400, 220));
-        keyPanel.setBorder(getBorder("Key Properties"));
+        keyPanel.setBorder(getBorder(bundle.getString("MW_KEYPROP")));
         keyPanel.setLayout(null);
 
         JPanel topPanel = new JPanel();
@@ -158,7 +159,7 @@ public class MainWindow implements KeyListener {
                 .getScaledInstance(15,15, Image.SCALE_SMOOTH));
         JButton stopSounds = new JButton(stop);
         stopSounds.setPreferredSize(new Dimension(120, 60));
-        stopSounds.setText("Stop");
+        stopSounds.setText(bundle.getString("MW_STOP"));
         stopSounds.setFocusable(false);
         keyboardPanel[2].add(stopSounds);
 
@@ -201,7 +202,7 @@ public class MainWindow implements KeyListener {
                                     .getScaledInstance(15,15, Image.SCALE_SMOOTH));
 
         JButton addSound = new JButton(audioIcon);
-        addSound.setText("Manage Audio");
+        addSound.setText(bundle.getString("MW_MNGAUDIO"));
         addSound.setBounds(50, 110, 150, 50);
         addSound.setBackground(WindowActions.BUTTON_COLOR);
         addSound.addActionListener(e -> addSound());
@@ -209,7 +210,7 @@ public class MainWindow implements KeyListener {
         filePanel.add(addSound);
 
         JButton manageRep = new JButton(repoIcon);
-        manageRep.setText("Repositories");
+        manageRep.setText(bundle.getString("MW_REPOS"));
         manageRep.setBounds(200, 110, 150, 50);
         manageRep.setBackground(WindowActions.BUTTON_COLOR);
             manageRep.addActionListener(e -> {
@@ -236,7 +237,7 @@ public class MainWindow implements KeyListener {
                         .getResource("/Artworks/channel_right.png")))
                         .getScaledInstance(25,25, Image.SCALE_SMOOTH));
 
-        selectedChannelLabel = new JLabel("Current channel ");
+        selectedChannelLabel = new JLabel(bundle.getString("MW_CRNT_CHNL"));
         selectedChannelLabel.setBounds(140, 185, 150, 25);
         selectedChannelLabel.setIcon(souncChannelIcon[0]);
         selectedChannelLabel.setHorizontalTextPosition(SwingConstants.LEFT);
@@ -375,7 +376,7 @@ public class MainWindow implements KeyListener {
     public void keyPressed(KeyEvent e) {
             if (Character.isLetter(e.getKeyChar()) || e.getKeyChar() == '-'){
                 try {
-                    soundPlayer.playSound(soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].getSound());
+                    soundPlayer.playSound(soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].getSoundAt(SoundKey.getSoundIndex()));
                     soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].setBackground(WindowActions.WHITE_COLOR);
                 } catch (NullPointerException nofile) {
                     soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].addSound("None", SoundKey.getSoundIndex());
@@ -386,9 +387,11 @@ public class MainWindow implements KeyListener {
             } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 SoundKey.switchSound(SoundKey.RIGHT);
                 selectedChannelLabel.setIcon(souncChannelIcon[SoundKey.RIGHT]);
+                for(SoundKey k : soundKeys) k.changeNameLabel(k.getSoundAt(SoundKey.RIGHT));
             } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
                 SoundKey.switchSound(SoundKey.LEFT);
                 selectedChannelLabel.setIcon(souncChannelIcon[SoundKey.LEFT]);
+                for(SoundKey k : soundKeys) k.changeNameLabel(k.getSoundAt(SoundKey.LEFT));
             } else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
                  soundPlayer.stopSound();
             }

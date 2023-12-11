@@ -37,6 +37,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.ResourceBundle;
+
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -54,6 +56,7 @@ public class RecorderDialog{
 
     // Since the buttons recordStop and play have two different functionalities these booleans are needed.
     private boolean recording, playing, rerecording, saved;
+    private static ResourceBundle bundle = ResourceBundle.getBundle("RecorderStrings");
 
     /**
      * Creates a RecorderDialog object that records the voice, play it and save it
@@ -67,20 +70,20 @@ public class RecorderDialog{
         for(String file : files) System.out.println(file);
 
         // Initializing the dialog box for the GUI
-        dialog = new LPDialog("Voice Recorder");
+        dialog = new LPDialog(bundle.getString("REC_TITLE"));
         //Fixed size
         dialog.setResizable(false);
         dialog.setSize(new Dimension(470, 170));
         dialog.setModal(true); // Force user to close the dialog to use other windows or dialogs
         //dialog.mainPanel.setLayout(null);
 
-        JLabel saveAsLabel = new JLabel("Save as: ");
+        JLabel saveAsLabel = new JLabel(bundle.getString("REC_SAVEAS"));
         saveAsLabel.setBounds(30, 20, 100, 30); // Position and dimension
         saveAsLabel.setForeground(WindowActions.BOX_FOREGROUND);
         dialog.mainPanel.add(saveAsLabel);
 
         filenameT = new JTextField(); // Where the user gives the name to the new recording file
-        filenameT.setBounds(100, 20, 290, 30); // Position and dimension
+        filenameT.setBounds(120, 20, 270, 30); // Position and dimension
         filenameT.setBackground(WindowActions.BOX_BACKGROUND);
         filenameT.setForeground(WindowActions.BOX_FOREGROUND);
         filenameT.setCaretColor(WindowActions.BOX_CARET); // Outline color
@@ -91,8 +94,8 @@ public class RecorderDialog{
         dialog.mainPanel.add(wavLabel);
 
         // When the object is constructed, as a default it should create a unique file name for the new recording file.
-        // Here, we assure that the new file has a unique name so it won't be overwritten to an existing file.
-        newName = FileOperations.createUniquePathName(path, "New_recording", ".wav");
+        // Here, we assure that the new file has a unique name, so it won't be overwritten to an existing file.
+        newName = FileOperations.createUniquePathName(path, bundle.getString("REC_NEWREC"), ".wav");
 
         filenameT.setText(newName);
         dialog.mainPanel.add(filenameT);
@@ -114,7 +117,7 @@ public class RecorderDialog{
 
         // Initializing the record button
         recordStop = new JButton(recordIcon);
-        recordStop.setText("Rec.");
+        recordStop.setText(bundle.getString("REC_REC"));
         recordStop.setBackground(WindowActions.HILIGHT_COLOR); // Make it RED
         recordStop.setBounds(30, 70, 90, 30); // Position and dimension
         recordStop.setFocusable(false);
@@ -124,7 +127,7 @@ public class RecorderDialog{
         // The process for the buttons are basically the same.
 
         play = new JButton(playIcon);
-        play.setText("Play");
+        play.setText(bundle.getString("REC_PLY"));
         play.setForeground(WindowActions.WHITE_COLOR);
         play.setBounds(120, 70, 90, 30);
         play.setFocusable(false);
@@ -132,14 +135,14 @@ public class RecorderDialog{
         play.setEnabled(false);
         dialog.mainPanel.add(play);
 
-        discard = new JButton("Discard");
+        discard = new JButton(bundle.getString("REC_DSC"));
         discard.setForeground(WindowActions.WHITE_COLOR);
         discard.setBounds(340, 70, 90, 30);
         discard.setFocusable(false);
         discard.addActionListener(e -> discard(path));
         dialog.mainPanel.add(discard);
 
-        save = new JButton("Save");
+        save = new JButton(bundle.getString("REC_SV"));
         save.setForeground(WindowActions.WHITE_COLOR);
         save.setBounds(250, 70, 90, 30);
         save.setFocusable(false);
@@ -168,7 +171,7 @@ public class RecorderDialog{
                 save.setEnabled(true);
                 play.setEnabled(true);
                 recordStop.setIcon(recordIcon);
-                recordStop.setText("Rec.");
+                recordStop.setText(bundle.getString("REC_REC"));
                 recordStop.setBackground(WindowActions.HILIGHT_COLOR);
                 recording = false;
                 rerecording = true;
@@ -182,7 +185,7 @@ public class RecorderDialog{
                 play.setEnabled(false);
                 filenameT.setEnabled(false);
                 recordStop.setIcon(stopIcon);
-                recordStop.setText("Stop");
+                recordStop.setText(bundle.getString("REC_STP"));
                 recordStop.setBackground(WindowActions.BUTTON_COLOR);
                 recording = true;
 
@@ -190,7 +193,7 @@ public class RecorderDialog{
                 // visit: https://www.youtube.com/watch?v=WSyTrdjKeqQ
 
                 //Declaring the Audio Format for our recording
-                AudioFormat audioFormat = new AudioFormat(16000.0f, 16, 1, true, true);
+                AudioFormat audioFormat = new AudioFormat(44100.0f, 16, 1, true, true);
                 DataLine.Info dataInfo = new DataLine.Info(TargetDataLine.class, audioFormat);
 
                 //System.out.println(dataInfo.getFormats());
@@ -204,7 +207,7 @@ public class RecorderDialog{
 
                 targetLine = (TargetDataLine) AudioSystem.getLine(dataInfo);
                 targetLine.open(); //Getting the microphone ready to capture audio input
-                targetLine.start(); // Start recording
+                targetLine.start(); // Start capturing data from microphone
 
                 Thread audioThread = new Thread(() -> {
                     AudioInputStream recordingStream = new AudioInputStream(targetLine); // Using targetLine as a source
@@ -231,7 +234,7 @@ public class RecorderDialog{
             save.setEnabled(true);
             recordStop.setEnabled(true);
             play.setIcon(playIcon);
-            play.setText("Play");
+            play.setText(bundle.getString("REC_PLY"));
             playing = false;
             clip.stop();
             System.out.println("Stopping");
@@ -243,7 +246,7 @@ public class RecorderDialog{
             save.setEnabled(false);
             recordStop.setEnabled(false);
             play.setIcon(stopIcon);
-            play.setText("Stop");
+            play.setText(bundle.getString("REC_STP"));
             playing = true;
             clip.start();
         }

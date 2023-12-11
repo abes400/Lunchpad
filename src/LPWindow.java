@@ -14,6 +14,8 @@
  * <https://www.gnu.org/licenses/>.
  * */
 
+import com.sun.awt.AWTUtilities;
+
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -32,6 +34,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.MouseInfo;
 import java.awt.BorderLayout;
+import java.awt.geom.RoundRectangle2D;
 import java.util.Objects;
 
 /**
@@ -72,6 +75,7 @@ public class LPWindow extends JFrame {
     public LPWindow(String title) throws java.io.IOException {
         setLayout(new BorderLayout()); // Setting the layout for the frame itself.
         setUndecorated(true); // Do not include the native window title.
+        
         topBar = new JPanel(); // Contains a bar that contains the window title can be used to drag the LPWindow.
         dimensionBeforeMaximize = new Dimension();
         locationBeforeMaximize = new Point();
@@ -277,16 +281,35 @@ public class LPWindow extends JFrame {
     // Changes the cursor look
     protected  void changeCursor(int borderIndex){
         switch (borderIndex){
-            case 0 -> setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
-            case 1 -> setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
-            case 2 -> setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-            case 3 -> setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
-            case 4 -> setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
-            case 5 -> setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
-            case 6 -> setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
-            case 7 -> setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
-            case -1 -> setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            case 0:
+                setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
+                break;
+            case 1:
+                setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
+                break;
+            case 2:
+                setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+                break;
+            case 3:
+                setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+                break;
+            case 4:
+                setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
+                break;
+            case 5:
+                setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+                break;
+            case 6:
+                setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
+                break;
+            case 7:
+                setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
+                break;
+            case -1:
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                break;
         }
+
     }
 
     @Override

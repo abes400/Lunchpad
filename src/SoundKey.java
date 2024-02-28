@@ -15,7 +15,7 @@
  * */
 
 import java.awt.*;
-import javax.swing.JButton;
+import javax.swing.*;
 
 /**
  * The class that extends JButton and encapsulates two String attributes to hold the names of the sound clips
@@ -27,18 +27,24 @@ public class SoundKey extends JButton {
     private final String[] clips;
     public String[] names;
     private final String LABEL_PREFIX;
-    private static final String LABEL_SUFFIX = "</h6></left></html>";
+    private static final String LABEL_SUFFIX = "</h6></html>";
     private static int currentStreamIndex;
     static Dimension dim = new Dimension(60, 60);
     public static final int RIGHT = 1, LEFT = 0;
-    private static final int NAME_END_INDEX = 6;
+    private static final int NAME_END_INDEX = 9;
+
+    public static final Insets keyMargin = new Insets(5, 5, 1, 1);
 
     public SoundKey(String label) {
-        LABEL_PREFIX = "<html><left>" + label + "<br/><h6>";
+        LABEL_PREFIX = "<html>" + label + "<h6><br/>";
         clips = new String[2];
         names = new String[2];
         this.setPreferredSize(dim);
         this.setBackground(WindowActions.BOX_BACKGROUND);
+
+        // Aligning text to the leftside of the button
+        this.setHorizontalAlignment(SwingConstants.LEFT);
+        this.setMargin(keyMargin);
     }
 
     public String[] getClipName(){

@@ -100,6 +100,7 @@ public abstract class Manager {
         dialog.mainPanel.add(cancel);
 
         importF = new JButton(bundle.getString("MGR_IMPORT"));
+        importF.putClientProperty("JButton.buttonType", "square");
         importF.setBounds(217, 273, 80, 25);
         importF.setBackground(WindowActions.BUTTON_COLOR);
         importF.setFocusable(false);
@@ -161,6 +162,7 @@ public abstract class Manager {
      */
     protected void enableRemove(){
         remove = new JButton("-"); // Initialize the button
+        remove.putClientProperty("JButton.buttonType", "square");
         remove.setBounds(193, 273, 25, 25); // Set position and dimension
         remove.setBackground(WindowActions.BUTTON_COLOR); // Change the color of the button
         remove.setFocusable(false);

@@ -68,6 +68,7 @@ public class FileOperations {
                          // after the method returns. This can cause some issues since if this method is called again
                          // and the cancel button is clicked.
             JFileChooser fc = new JFileChooser(); //Initiate JFileChooser
+
             if(mode == JFileChooser.FILES_ONLY){
                 fc.setDialogTitle("Choose a file");
                 fc.setFileSelectionMode(JFileChooser.FILES_ONLY); // Only files are allowed since the mode is FILES_ONLY

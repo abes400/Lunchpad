@@ -133,7 +133,7 @@ public class AudioMgr extends Manager {
             FileOperations.loadFileTo(System.getProperty("user.home") + "/LunchPad Repositories/"
                     + currentRepository + "/", FileOperations.file);
         } catch (java.io.IOException exception) {throw new RuntimeException(exception);}
-        dialog.setVisible(true);
+
         if(FileOperations.filename != null){ // If user selects something
             refresh(".wav"); // Refreshes the DLM so the newly selected file is also visible
                                           // as long as it is a .wav file.
@@ -141,6 +141,7 @@ public class AudioMgr extends Manager {
             if(FileOperations.filename.endsWith(".wav"))
                 // Select the newly added file programmatically
                 fileList.setSelectedValue(FileOperations.filename, true);
+            dialog.setVisible(true);
 
             remove.setEnabled(true);
             selectedFileName.setText(FileOperations.filename + bundleAudio.getString("AUMGR_SELECTED"));

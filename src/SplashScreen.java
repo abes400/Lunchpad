@@ -28,20 +28,19 @@ public class SplashScreen {
     public SplashScreen() throws  java.io.IOException {
         baseFrame = new JFrame();
         baseFrame.setUndecorated(true);
-        baseFrame.setSize(500, 350);
+        baseFrame.setSize(500, 340);
         baseFrame.getContentPane().setBackground(WindowActions.BLACK_COLOR);
 
         JLabel logo = new JLabel(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/logo2.png")))
-                .getScaledInstance(500, 333, Image.SCALE_SMOOTH)));
+                .getScaledInstance(500, 276, Image.SCALE_SMOOTH)));
 
-        logo.setBounds(0, 0,500, 313);
+        logo.setBounds(0, 0,500, 266);
         baseFrame.getContentPane().add(logo);
 
         JLabel text = new JLabel(ResourceBundle.getBundle("SplashScreenStrings").getString("SPLSH_BYLINE"));
-        text.setFont(new Font("Sans Serif", Font.PLAIN, 10));
-        text.setAlignmentX(SwingConstants.CENTER);
+        text.setHorizontalAlignment(SwingConstants.CENTER);
         text.setForeground(WindowActions.BOX_CARET);
-        text.setBounds(40, 300, 500, 60);
+        text.setBounds(0, 270, 500, 60);
         baseFrame.add(text);
 
         WindowActions.centerWindow(baseFrame);

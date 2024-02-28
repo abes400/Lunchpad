@@ -71,6 +71,7 @@ public class RepoMgr extends Manager {
 
         // Initializing the "Vreate repository" button which creates an empty repository folder.
         add = new JButton("+");
+        add.putClientProperty("JButton.buttonType", "square");
         add.setBounds(170, 273, 25, 25);
         add.setBackground(WindowActions.BUTTON_COLOR);
         add.addActionListener(e -> addFn());
@@ -130,18 +131,20 @@ public class RepoMgr extends Manager {
      */
     @Override
     public void importF(){
-        dialog.setVisible(false);
+
         try {
+            //dialog.setVisible(false);
             // Load the directory selected by user to the current repository, the method is called in directory selection mode.
             FileOperations.loadFileTo(System.getProperty("user.home") + "/LunchPad Repositories/", FileOperations.dir);
-        } catch (IOException e) { throw new RuntimeException(e);}
+            System.out.println("Dialog flag");
+        } catch (IOException e) { e.printStackTrace();}
 
-        dialog.setVisible(true);
 
         if (FileOperations.filename != null) { // If user selects something
             refresh(""); // Refreshes the DLM so the newly selected dir is also visible
             // Select the newly added file programmatically
             fileList.setSelectedValue(FileOperations.filename, true);
+            //dialog.setVisible(true);
             use.setEnabled(true);
             remove.setEnabled(true);
             selectedFileName.setText(FileOperations.filename + bundleRepo.getString("REPOMGR_SELECT"));

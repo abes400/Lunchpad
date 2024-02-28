@@ -25,12 +25,14 @@ public class WindowActions {
     static final Color BUTTON_COLOR = new Color(0x5C5C5C),
                        APPROVE_COLOR = new Color(0x0095FF),
                        HILIGHT_COLOR = new Color(0xCF4A4A),
-                       PANEL_COLOR = new Color(0x3A3A3A),
+                       PANEL_COLOR = new Color(0x381003),
                        BLACK_COLOR = new Color(0x000000),
                        SECONDARY_COLOR = new Color(0x313131),
                        WHITE_COLOR = new Color(0xFFFFFF),
                        BOX_FOREGROUND = new Color(0XB8B8B8),
                        BOX_BACKGROUND = new Color(0x404040),
+                       BAR_BACKGROUND = new Color(0xAF3C02),
+                       PRESSED_KEY_BACKGROUND = new Color(0xAF3C02),
                        BOX_CARET = new Color(0XB8B8B8);
 
     /**

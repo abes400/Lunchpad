@@ -37,21 +37,23 @@ public class Main {
             SplashScreen splashScreen = new SplashScreen();
             splashScreen.baseFrame.setVisible(true);
             Thread.sleep(1000);
-            // Hide the splash screen
-            splashScreen.baseFrame.setVisible(false);
 
             // Creates a directory that holds every audio library that cn be used in the application.
             String startString = fileCAFE();
 
             // Initiate the main window.
             MainWindow win = new MainWindow(startString);
+
+            // Hide the splash screen
+            splashScreen.baseFrame.setVisible(false);
+
             // Show the main window
             win.mWindow.setVisible(true);
 
             // At this point, the app should be running without any issue.
             // Otherwise, an exception will be thrown on console.
 
-        } catch (Exception e) {throw new RuntimeException(e);}
+        } catch (Exception e) {e.printStackTrace();}
 
 
 

@@ -25,6 +25,7 @@ import java.util.Set;
 public class SoundPlayer {
     private final HashMap buttonSounds;
     private static ResourceBundle bundle = ResourceBundle.getBundle("SoundPlayerStrings");
+    public static boolean playOneSound = false;
 
     public SoundPlayer(){
         buttonSounds = new HashMap<String, Clip[]>();
@@ -62,12 +63,31 @@ public class SoundPlayer {
     public void playSound(String playedSound) throws NullPointerException{
         Clip[] playedClip = (Clip[]) buttonSounds.get(playedSound);
         try {
+            /*
+            If you notice the actual for-loop below is problematic by chance, delete it and uncomment this loop.
             for (Clip temp : playedClip) {
                 if (!temp.isRunning()) {
                     temp.setMicrosecondPosition(0);
                     temp.start();
                     break;
                 }
+            }*/
+            
+            for (int i = 0; i < playedClip.length; i++) {
+                                               /////////////////////If malfunctions delete "|| playOneSound"
+                if (!playedClip[i].isRunning() || playOneSound) {
+                    playedClip[i].setMicrosecondPosition(0);
+                    playedClip[i].stop();
+                    playedClip[i].start();
+                    //System.out.println(i);
+                    break;
+                                                   /////////////////////If malfunctions delete "&& !playOneSound"
+                } else if(i == playedClip.length-1 && !playOneSound) {
+                    playedClip[0].setMicrosecondPosition(0);
+                    //System.out.println("playing first");
+                    break;
+                }
+
             }
         } catch (Exception e){
             throw new NullPointerException();

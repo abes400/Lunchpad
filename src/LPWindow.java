@@ -24,18 +24,12 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.MouseInfo;
-import java.awt.BorderLayout;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Objects;
+import com.formdev.flatlaf.icons.*;
 
 /**
  * The class that extends from JFrame, which features a title bar and window control buttons designed for Lunchpad.
@@ -68,6 +62,12 @@ public class LPWindow extends JFrame {
                                             // When window is minimized, it goes back to the position stored here
     private final JLabel windowTitle;
 
+    protected static // Initializing icons for the window control buttons.
+    Icon x = new FlatWindowCloseIcon(),
+         y = new FlatWindowIconifyIcon(),
+         z = new FlatWindowMaximizeIcon(),
+         t = new FlatWindowRestoreIcon();
+
     /**
      * Creates a new LPWindow object.
      * @param title Title of the window. Leave empty if you don't want any title.
@@ -81,8 +81,8 @@ public class LPWindow extends JFrame {
         locationBeforeMaximize = new Point();
 
         topBar.setLayout(new BorderLayout()); // Layout of the topBar. BorderLayout helps align the title.
-        topBar.setBackground(WindowActions.BOX_BACKGROUND);
-        topBar.setPreferredSize(new Dimension(50, 40));
+        topBar.setBackground(WindowActions.BAR_BACKGROUND);
+        topBar.setPreferredSize(new Dimension(50, 38));
         /*
          * dragX and dragY are used as offset coordinates for the  mouse's coordinates.
          * Whenever the mouse is dragged, the coordinate of the window is changed to the mouse's coordinates added by the offset.
@@ -162,35 +162,26 @@ public class LPWindow extends JFrame {
         borders[3].add(borders[6], BorderLayout.EAST);
         borders[3].add(borders[7], BorderLayout.WEST);
 
-        windowControlsPanel = new JPanel(new FlowLayout());
-        windowControlsPanel.setBackground(WindowActions.BOX_BACKGROUND);
-        windowControlsPanel.setPreferredSize(new Dimension(100, 20));
-
-        // Initializing icons for the window control buttons.
-        Icon x = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getResource("/Artworks/close.png")))
-                .getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-        Icon y = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass()
-                .getResource("/Artworks/minimize.png"))).getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-        Icon z = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass()
-                .getResource("/Artworks/maximize.png"))).getScaledInstance(15, 15, Image.SCALE_SMOOTH));
-        Icon t = new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass()
-                .getResource("/Artworks/exit_maximize.png"))).getScaledInstance(15, 15, Image.SCALE_SMOOTH));
+        windowControlsPanel = new JPanel(null);
+        windowControlsPanel.setBackground(WindowActions.BAR_BACKGROUND);
+        windowControlsPanel.setPreferredSize(new Dimension(180, 30));
+        //windowControlsPanel.setBounds(0, 0, 180, 10);
 
         // Initializing the window control buttons
         closeButton = new JButton(x);
-        closeButton.setSize(20, 15);
-        closeButton.setBackground(WindowActions.BOX_BACKGROUND);
+        closeButton.setBounds(0, 0, 50, 30);
+        closeButton.setBackground(WindowActions.BAR_BACKGROUND);
         closeButton.setFocusable(false);
 
         minimizeButton = new JButton(y);
-        minimizeButton.setSize(20, 20);
-        minimizeButton.setBackground(WindowActions.BOX_BACKGROUND);
+        minimizeButton.setBounds(50, 0, 50, 30);
+        minimizeButton.setBackground(WindowActions.BAR_BACKGROUND);
         minimizeButton.setFocusable(false);
         minimizeButton.addActionListener(e -> this.setState(Frame.ICONIFIED));
 
         maximizeButton = new JButton(z);
-        maximizeButton.setSize(20, 20);
-        maximizeButton.setBackground(WindowActions.BOX_BACKGROUND);
+        maximizeButton.setBounds(100, 0, 50, 30);
+        maximizeButton.setBackground(WindowActions.BAR_BACKGROUND);
         maximizeButton.setFocusable(false);
 
         // Detect whether the program runs on a Macintosh machine, and arrange window control buttons accordingly.

@@ -58,6 +58,7 @@ public class MainWindow implements KeyListener {
     private Icon[] souncChannelIcon;
     private JLabel selectedChannelLabel;
     private static ResourceBundle bundle = ResourceBundle.getBundle("MainWindowStrings");
+    char[] keyString;
 
     /** Simply call this method with the "new" keyword and you have a MainWindow*/
     public MainWindow(String openRepository) throws java.io.IOException {
@@ -65,7 +66,7 @@ public class MainWindow implements KeyListener {
         soundPlayer = new SoundPlayer();
         initWindow();
 
-        char[] keyString = "QWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
+        keyString = "QWERTYUIOPASDFGHJKLZXCVBNM".toCharArray();
         soundKeys = new SoundKey[26];
         keyIndexes = new HashMap<>();
 
@@ -289,6 +290,12 @@ public class MainWindow implements KeyListener {
             }
     }
 
+    void renameButtons() {
+        SoundKey.switchSound(SoundKey.LEFT);
+        selectedChannelLabel.setIcon(souncChannelIcon[SoundKey.LEFT]);
+        for(SoundKey k : soundKeys) k.changeNameLabel(k.getSoundAt(SoundKey.LEFT));
+    }
+
     private void saveButtonMap() throws  java.io.IOException{
         File mapping = new File(currentRepository + "keymappings.lpr");
         Writer infoWrite = new FileWriter(mapping);
@@ -307,7 +314,7 @@ public class MainWindow implements KeyListener {
 
     private Border getBorder(String title) {
         return BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(WindowActions.BUTTON_COLOR),
+                BorderFactory.createLineBorder(WindowActions.APPROVE_COLOR),
                 title,
                 TitledBorder.CENTER,
                 TitledBorder.TOP,
@@ -321,7 +328,7 @@ public class MainWindow implements KeyListener {
         selectedKey = i;
         rightSound.setText(names[SoundKey.RIGHT]);
         leftSound.setText(names[SoundKey.LEFT]);
-        selectedKeyButton.setText(soundKeys[i].getText());
+        selectedKeyButton.setText(""+keyString[i]);
     }
 
     public void manageRep() throws java.io.IOException {
@@ -336,6 +343,7 @@ public class MainWindow implements KeyListener {
             soundPackageLocation.setText(selectedRepo);
             remapButtons(true, true);
             selectKey(selectedKey);
+            renameButtons();
         }
     }
 
@@ -352,6 +360,7 @@ public class MainWindow implements KeyListener {
     }
 
     public void close() throws java.io.IOException{
+        mWindow.setVisible(false);
         saveButtonMap();
         System.out.println("Program ended.");
         System.exit(0);
@@ -377,11 +386,10 @@ public class MainWindow implements KeyListener {
             if (Character.isLetter(e.getKeyChar()) || e.getKeyChar() == '-'){
                 try {
                     soundPlayer.playSound(soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].getSoundAt(SoundKey.getSoundIndex()));
-                    soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].setBackground(WindowActions.WHITE_COLOR);
+                    soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].setBackground(WindowActions.PRESSED_KEY_BACKGROUND);
                 } catch (NullPointerException nofile) {
                     soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].addSound("None", SoundKey.getSoundIndex());
                     selectKey(selectedKey);
-                    //nofile.printStackTrace();
 
                 }
             } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -393,6 +401,8 @@ public class MainWindow implements KeyListener {
                 selectedChannelLabel.setIcon(souncChannelIcon[SoundKey.LEFT]);
                 for(SoundKey k : soundKeys) k.changeNameLabel(k.getSoundAt(SoundKey.LEFT));
             } else if(e.getKeyCode() == KeyEvent.VK_SHIFT){
+
+                SoundPlayer.playOneSound = true;
                  soundPlayer.stopSound();
             }
     }
@@ -402,5 +412,9 @@ public class MainWindow implements KeyListener {
 
             if (Character.isLetter(e.getKeyChar()) || e.getKeyChar() == '-')
                 soundKeys[keyIndexes.get(Character.toUpperCase(e.getKeyChar()))].setBackground(WindowActions.BUTTON_COLOR);
+            if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+                SoundPlayer.playOneSound = false;
+
+
     }
 }

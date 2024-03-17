@@ -18,7 +18,6 @@ import com.formdev.flatlaf.extras.FlatDesktop;
 import javax.swing.UIManager;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Locale;
 //import java.util.Locale;
 
 // Entry point of the application.
@@ -30,7 +29,6 @@ public class Main {
         } );
 
         try {
-             Locale.setDefault(new Locale("en", "US"));
             // Setting the Look And Feel theme of the whole project.
             UIManager.setLookAndFeel("com.formdev.flatlaf.themes.FlatMacDarkLaf");
 

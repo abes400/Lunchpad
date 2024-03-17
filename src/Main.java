@@ -61,7 +61,7 @@ public class Main {
     }
 
     /**
-     * C.A.F.E. : A technique which is used to generate a workspace directory system that can be restored if
+     * C.A.F.E. : A technique that is used to generate a workspace directory system that can be restored if
        there are any missing components. It is very handy when the application uses a simple workspace to function on.
 
       Create

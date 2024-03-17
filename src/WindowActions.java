@@ -29,7 +29,7 @@ public class WindowActions {
                        PANEL_COLOR_2 = new Color(0x2D2828),
                        BLACK_COLOR = new Color(0x000000),
                        SECONDARY_COLOR = new Color(0x1F1F1F),
-                       WHITE_COLOR = new Color(0x9F9F9F),
+                       WHITE_COLOR = new Color(0xDEDEDE),
                        BOX_FOREGROUND = new Color(0XB8B8B8),
                        BOX_BACKGROUND = new Color(0x1D1C1C),
                        BAR_BACKGROUND = new Color(0x272727),

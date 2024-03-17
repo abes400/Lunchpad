@@ -62,7 +62,7 @@ public class LPDialog extends JDialog {
 
         topBar = new JPanel(); // Contains a bar that contains the window title can be used to drag the LPDialog.
         topBar.setLayout(new BorderLayout()); // Layout of the topBar. BorderLayout helps align the title.
-        topBar.setBackground(WindowActions.BOX_BACKGROUND);
+        topBar.setBackground(WindowActions.PANEL_COLOR_2);
 
 
         topBar.setPreferredSize(new Dimension(50, 35));
@@ -102,7 +102,7 @@ public class LPDialog extends JDialog {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(null); // Default layout is set to null
-        mainPanel.setBackground(WindowActions.PANEL_COLOR);
+        mainPanel.setBackground(WindowActions.PANEL_COLOR_2);
         add(mainPanel, BorderLayout.CENTER);
     }
     @Override

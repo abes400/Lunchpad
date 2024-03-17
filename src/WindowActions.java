@@ -22,16 +22,17 @@ import java.awt.Window;
 
 public class WindowActions {
 
-    static final Color BUTTON_COLOR = new Color(0x5C5C5C),
-                       APPROVE_COLOR = new Color(0x0095FF),
-                       HILIGHT_COLOR = new Color(0xCF4A4A),
-                       PANEL_COLOR = new Color(0x381003),
+    static final Color BUTTON_COLOR = new Color(0x4A4A4A),
+                       APPROVE_COLOR = new Color(0x035691),
+                       HILIGHT_COLOR = new Color(0xA43535),
+                       PANEL_COLOR = new Color(0x333333),
+                       PANEL_COLOR_2 = new Color(0x2D2828),
                        BLACK_COLOR = new Color(0x000000),
-                       SECONDARY_COLOR = new Color(0x313131),
-                       WHITE_COLOR = new Color(0xFFFFFF),
+                       SECONDARY_COLOR = new Color(0x1F1F1F),
+                       WHITE_COLOR = new Color(0x9F9F9F),
                        BOX_FOREGROUND = new Color(0XB8B8B8),
-                       BOX_BACKGROUND = new Color(0x404040),
-                       BAR_BACKGROUND = new Color(0xAF3C02),
+                       BOX_BACKGROUND = new Color(0x1D1C1C),
+                       BAR_BACKGROUND = new Color(0x272727),
                        PRESSED_KEY_BACKGROUND = new Color(0xAF3C02),
                        BOX_CARET = new Color(0XB8B8B8);
 

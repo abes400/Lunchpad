@@ -110,13 +110,13 @@ public class MainWindow implements KeyListener {
         mWindow.mainPanel.setLayout(new BorderLayout());
 
         JPanel filePanel = new JPanel();
-        filePanel.setBackground(WindowActions.PANEL_COLOR);
+        filePanel.setBackground(WindowActions.BAR_BACKGROUND);
         filePanel.setPreferredSize(new Dimension(400, 220));
         filePanel.setBorder(getBorder(bundle.getString("MW_SOUNDREPO")));
         filePanel.setLayout(null);
 
         JPanel keyPanel = new JPanel();
-        keyPanel.setBackground(WindowActions.PANEL_COLOR);
+        keyPanel.setBackground(WindowActions.BAR_BACKGROUND);
         keyPanel.setPreferredSize(new Dimension(400, 220));
         keyPanel.setBorder(getBorder(bundle.getString("MW_KEYPROP")));
         keyPanel.setLayout(null);
@@ -225,7 +225,6 @@ public class MainWindow implements KeyListener {
         soundPackageLocation.setBounds(50, 65, 300, 30);
         soundPackageLocation.setBackground(WindowActions.BOX_BACKGROUND);
         soundPackageLocation.setForeground(WindowActions.BOX_FOREGROUND);
-        soundPackageLocation.setCaretColor(WindowActions.BOX_CARET);
         soundPackageLocation.setEditable(false);
         soundPackageLocation.setFocusable(false);
         filePanel.add(soundPackageLocation);
@@ -317,9 +316,9 @@ public class MainWindow implements KeyListener {
                 BorderFactory.createLineBorder(WindowActions.APPROVE_COLOR),
                 title,
                 TitledBorder.CENTER,
-                TitledBorder.TOP,
-                new Font(Font.DIALOG, Font.ITALIC, 12),
-                new Color(0XB8B8B8)
+                TitledBorder.BELOW_TOP,
+                new Font(Font.SANS_SERIF, Font.PLAIN, 12),
+                new Color(0x9F9F9F)
         );
     }
 

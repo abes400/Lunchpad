@@ -124,7 +124,7 @@ public class LPWindow extends JFrame {
             if(i == 1 || i == 3) borders[i].setLayout(new BorderLayout());
             else borders[i].setLayout(null);
             if(i == 3 || i == 4 ||i == 5 || i == 6 || i == 7)
-                borders[i].setBackground(WindowActions.BOX_BACKGROUND);
+                borders[i].setBackground(WindowActions.BAR_BACKGROUND);
             else borders[i].setBackground(WindowActions.PANEL_COLOR);
 
             borders[i].addMouseListener(new MouseAdapter() {

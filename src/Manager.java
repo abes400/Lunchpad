@@ -71,8 +71,8 @@ public abstract class Manager {
         DLM = new DefaultListModel<>(); // Initializing the DLM DefaultListModel that will contain the Items.
         fileList = new JList<>(DLM); // Initializing fileList with DLM as the DefaultListModel
         fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // Allow single-item-selection only
-        fileList.setBackground(new Color(0x404040));
-        fileList.setForeground(new Color(0XB8B8B8));
+        fileList.setBackground(WindowActions.SECONDARY_COLOR);
+        fileList.setForeground(WindowActions.WHITE_COLOR);
         fileList.setFocusable(false);
         fileList.addMouseListener(new MouseAdapter(){
             public void mouseReleased(MouseEvent e){
